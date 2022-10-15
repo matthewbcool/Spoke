@@ -131,9 +131,18 @@ class ProjectsPage extends Component {
       .catch(error => this.setState({ error }));
   };
 
+  onDeleteScene = scene => {
+    console.log(scene);
+    this.props.api
+      .deleteScene(scene)
+      .then(() => this.setState({ scenes: this.state.projects.filter(s => s.scene_id !== scene.scene_id) }))
+      .catch(error => this.setState({ error }));
+  };
+
   renderContextMenu = props => {
     return (
       <ContextMenu id={contextMenuId}>
+        {<MenuItem onClick={e => this.onDeleteScene(props.trigger.scene, e)}>Delete Scene</MenuItem>}
         <MenuItem onClick={e => this.onDeleteProject(props.trigger.project, e)}>Delete Project</MenuItem>
       </ContextMenu>
     );

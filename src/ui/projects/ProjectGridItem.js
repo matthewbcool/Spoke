@@ -152,8 +152,24 @@ export class ProjectGridItem extends Component {
   }
 }
 
-export function ProjectGridSceneItem({ scene }) {
+export function ProjectGridSceneItem({ scene, contextMenuId }) {
   const creatorAttribution = scene.attributions && scene.attributions.creator;
+  const sceneID = scene.scene_id;
+  const onShowGLBMenu = event => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const x = event.clientX || (event.touches && event.touches[0].pageX);
+    const y = event.clientY || (event.touches && event.touches[0].pageY);
+    showMenu({
+      position: { x, y },
+      target: event.currentTarget,
+      id: contextMenuId,
+      data: {
+        project: sceneID
+      }
+    });
+  };
   return (
     <StyledProjectGridItem to={scene.url}>
       <ThumbnailContainer>{scene.screenshot_url && <Thumbnail src={scene.screenshot_url} />}</ThumbnailContainer>
@@ -163,6 +179,9 @@ export function ProjectGridSceneItem({ scene }) {
           {creatorAttribution && <p>{creatorAttribution}</p>}
         </Col>
         <Pill>GLB</Pill>
+        <MenuButton onClick={onShowGLBMenu}>
+          <EllipsisV />
+        </MenuButton>
       </TitleContainer>
     </StyledProjectGridItem>
   );

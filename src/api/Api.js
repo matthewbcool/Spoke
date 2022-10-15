@@ -560,6 +560,28 @@ export default class Project extends EventEmitter {
 
     return true;
   }
+  async deleteScene(sceneId) {
+    const token = this.getToken();
+
+    const headers = {
+      "content-type": "application/json",
+      authorization: `Bearer ${token}`
+    };
+
+    const sceneEndpoint = `https://${RETICULUM_SERVER}/api/v1/projects/${sceneId}`;
+
+    const resp = await this.fetch(sceneEndpoint, { method: "DELETE", headers });
+
+    if (resp.status === 401) {
+      throw new Error("Not authenticated");
+    }
+
+    if (resp.status !== 200) {
+      throw new Error(`Scene deletion failed. ${await resp.text()}`);
+    }
+
+    return true;
+  }
 
   async saveProject(projectId, editor, signal, showDialog, hideDialog) {
     this.emit("project-saving");
