@@ -188,5 +188,6 @@ export function ProjectGridSceneItem({ scene, contextMenuId }) {
 }
 
 ProjectGridSceneItem.propTypes = {
-  scene: PropTypes.object.isRequired
+  scene: PropTypes.object.isRequired,
+  contextMenuId: PropTypes.string
 };

@@ -560,6 +560,7 @@ export default class Project extends EventEmitter {
 
     return true;
   }
+
   async deleteScene(sceneId) {
     const token = this.getToken();
 
